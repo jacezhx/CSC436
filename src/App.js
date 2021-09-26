@@ -36,7 +36,8 @@ function App() {
     const p = {
       title: t,
       content: c,
-      dateCreated: Date.now()
+      dateCreated: Date.now(),
+      dateCompletd: Date.now()
     }
 
     setToDoList(toDoList=>[...toDoList, p]);
