@@ -19,7 +19,8 @@ export default function AddPost ({handleAddpost}) {
         //setUserInput("");
     }
     return (
-        <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
+        <h3>Enter Your ToDo</h3>
         <label htmlFor="create-title">Title: &nbsp;&nbsp;&nbsp;&nbsp; </label>
         <input type="text"  name="create-title" id="create-title" value ={userInput.title} onChange ={handleUserTitleInputChange}/>
         <br></br>

@@ -16,6 +16,7 @@ export default function UserBar({sendAddpost}) {
     setUser(un)
     setPassword(pass)
   }
+  const handleRegister = (value) =>{}
   const handleLogout = () =>{
     setUser('')
     setPassword('')
@@ -39,7 +40,7 @@ export default function UserBar({sendAddpost}) {
       return (
           <div>
             <Login handleLogin = { (user, password) => {handleLogin(user,password);}}/>
-            <Register/>
+            <Register handleRegister ={(value) =>{handleRegister(value)}}/>
             
           </div>
       )
