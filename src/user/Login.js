@@ -1,30 +1,17 @@
-import React, { useState } from 'react'
+import React, {useState} from 'react'
 
-export default function Login(props) {
-    const[loginInfo,setLoginInfo] = useState({
-        username: "",
-        password:""
-    })
-    const handleUsernameChange =(evt)=>{
-        setLoginInfo({...loginInfo,username:evt.target.value})
-        
-    }
-    const handlePasswordChange=(evt) =>{
-        setLoginInfo({...loginInfo,password:evt.target.value})
+export default function Login({dispatchUser}) {
 
-    }
-    const handleSubmit = (e) => {
-        e.preventDefault(); 
-        props.handleLogin(loginInfo.username,loginInfo.password)
+    const [username, setUsername] = useState('');
 
-        
-    }
+    function handleUsername (evt) { setUsername(evt.target.value) } 
+
    return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={evt => {evt.preventDefault(); dispatchUser({type:"LOGIN", username})} }>
             <label htmlFor="login-username">Username:</label>
-            <input type="text" name="login-username" id="login-username" value ={loginInfo.username} onChange = {handleUsernameChange}/>
+            <input type="text" name="login-username" value={username} onChange={handleUsername}  id="login-username" />
             <label htmlFor="login-password">Password:</label>
-            <input type="text" name="login-password" id="login-password" value ={loginInfo.password} onChange = {handlePasswordChange}/>
+            <input type="password" name="login-password" id="login-password" />
             <input type="submit" value="Login" />
         </form>
     )

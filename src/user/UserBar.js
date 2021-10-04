@@ -4,44 +4,26 @@ import Logout from './Logout'
 import Register from './Register'
 import Login from './Login'
 import AddPost from'../post/AddPost'
+import ToDoList from '../post/ToDoList'
 
-export default function UserBar({sendAddpost}) {
-  
-  const[user,setUser] = useState('')
-  const[password,setPassword] = useState('')
-  const[title,setTitle] = useState('')
-  const[content,setContent] = useState('')
+export default function UserBar({user,posts,dispatchUser,dispatchPosts}) {
 
-  const handleLogin = (un,pass)=>{
-    setUser(un)
-    setPassword(pass)
-  }
-  const handleRegister = (value) =>{}
-  const handleLogout = () =>{
-    setUser('')
-    setPassword('')
-  }
-  const handleAddpost = (t,c) =>{
-    sendAddpost(t,c);
-  }
-  
   if (user) {
-    
       return (
         <div>
           <Logout user={user} 
-          handleLogout={handleLogout}/>
+          dispatchUser={dispatchUser} />
           <br></br>
-          <AddPost handleAddpost = {(title,content) =>{handleAddpost(title,content);}}/>
+          <AddPost dispatchPosts ={dispatchPosts}/>
+          <ToDoList posts = {posts} dispathPosts ={dispatchPosts}/>
         </div>
       )
 
   } else {
       return (
           <div>
-            <Login handleLogin = { (user, password) => {handleLogin(user,password);}}/>
-            <Register handleRegister ={(value) =>{handleRegister(value)}}/>
-            
+            <Login dispatchUser={dispatchUser} />
+            <Register dispatchUser={dispatchUser} />
           </div>
       )
      

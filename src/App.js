@@ -1,9 +1,10 @@
 
-import UserBar from "./user/UserBar";
-import ShowPost from "./post/ShowPost";
-import ToDoList from "./post/ToDoList";
-import React,{useState} from "react";
-import AddPost from "./post/AddPost";
+import UserBar from "./user/UserBar.js";
+import React,{useReducer, useState} from "react";
+import userReducer from "./userReducer.js"
+import postReducer from "./postReducer.js"
+
+
 function App() {
   // const posts = [
   //   {
@@ -26,31 +27,15 @@ function App() {
   //     dateCompleted: "2/1/2022"
   //   }
   // ]
-  const[toDoList,setToDoList] = useState([]);
-  const[title,setTitle] = useState('')
-  const[content,setContent] = useState('')
-
-  const handleAddpost = (t,c) =>{
-    setTitle(t);
-    setContent(c);
-    const p = {
-      title: t,
-      content: c,
-      dateCreated: Date.now(),
-      dateCompletd: Date.now()
-    }
-
-    setToDoList(toDoList=>[...toDoList, p]);
-  }
-  
+  const[user,dispatchUser] = useReducer(userReducer,'');
+  const[posts,dispatchPosts] = useReducer(postReducer,[]);
 
   return (
-    <div>
+    <div className = "app">
       <h1>My Todo List</h1>
-      <UserBar sendAddpost = {(title,content) =>{handleAddpost(title,content);}}/>
-      <h2>List</h2>
-      <ToDoList toDoList ={toDoList}/>
-  
+      <UserBar user={user} posts ={posts} dispatchUser={dispatchUser} dispatchPosts={dispatchPosts}/>
+      {/* <h2>List</h2>
+      <ToDoList toDoList ={toDoList}/> */}
     </div>
     
   )

@@ -1,33 +1,20 @@
-import React ,{useState} from 'react';
+import React ,{useState,useEffect} from 'react';
 
-export default function AddPost ({handleAddpost}) {
-    const[userInput,setUserInput] = useState({
-        title:"",
-        content:""
-    })
-    const handleUserTitleInputChange =(evt)=>{
-        setUserInput({...userInput,title: evt.target.value})
-    }
-    const handleUserContentInputChange =(evt)=>{
-        setUserInput({...userInput,content: evt.target.value})
-    }
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        handleAddpost(userInput.title,userInput.content);
-        // console.log(userInput.title);
-        // console.log(userInput.content);
-        //setUserInput("");
-    }
+export default function AddPost ({dispatchPosts}) {
+    const [ title, setTitle ] = useState('')
+    const [ content, setContent ] = useState('')
+
+  
     return (
-    <form onSubmit={handleSubmit}>
+        <form onSubmit={e => {e.preventDefault(); dispatchPosts({type: "CREATE_POST", title: title, content: content})}}>
         <h3>Enter Your ToDo</h3>
         <label htmlFor="create-title">Title: &nbsp;&nbsp;&nbsp;&nbsp; </label>
-        <input type="text"  name="create-title" id="create-title" value ={userInput.title} onChange ={handleUserTitleInputChange}/>
+        <input type="text"  name="create-title" id="create-title" value ={title} onChange={e => setTitle(e.target.value)}/>
         <br></br>
         <br></br>
         <label htmlFor="create-content">Content:&nbsp;</label>
-        <textarea type ="text" value ={userInput.content} onChange = {handleUserContentInputChange}/>
-        <input type="submit" disabled={!userInput.title} value="Add"/>
+        <textarea type ="text" value = {content} onChange={e => setContent(e.target.value)}/>
+        <input type="submit" disabled={!title} value="Create"/>
     </form>
     )
 }
