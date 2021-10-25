@@ -1,12 +1,40 @@
-import React ,{useState,useEffect} from 'react';
+import React ,{useState,useEffect, useContext} from 'react';
+import { StateContext } from '../Contexts';
+import { useResource } from 'react-request-hook';
 
-export default function AddPost ({dispatchPosts}) {
+
+export default function AddPost () {
     const [ title, setTitle ] = useState('')
     const [ content, setContent ] = useState('')
+    const {state,dispatch} = useContext(StateContext)
+    const {user} = state;
 
-  
+    const [newpost , createPost ] = useResource(({ title, content,dateCreated,isComplete,dateCompleted}) => ({
+        url: '/posts',
+        method: 'post',
+        data: {title,content,dateCreated,isComplete,dateCompleted }
+    }))
+
+    // useEffect(() => {
+    //     if (post && post.data) {
+    //         dispatch({type: 'CREATE_POST', title: post.data.title, content: post.data.content, id: post.data.id, author: user})
+    //         console.log(post.data)
+    //         //navigation.navigate(`/post/${post.data.id}`)
+    //     }
+    // }, [post])
+
+
+
+ function handleCreate (e) {
+        e.preventDefault();
+        //update db.json
+        createPost({ title:title, content:content, dateCreated: Date(Date.now()),isComplete:false, dateCompleted:null })
+        //update posts array in state
+        dispatch({ type: 'CREATE_POST', title, content })
+    }
+
     return (
-        <form onSubmit={e => {e.preventDefault(); dispatchPosts({type: "CREATE_POST", title: title, content: content})}}>
+        <form onSubmit={handleCreate}>
         <h3>Enter Your ToDo</h3>
         <label htmlFor="create-title">Title: &nbsp;&nbsp;&nbsp;&nbsp; </label>
         <input type="text"  name="create-title" id="create-title" value ={title} onChange={e => setTitle(e.target.value)}/>
