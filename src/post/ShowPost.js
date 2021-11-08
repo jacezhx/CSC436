@@ -1,10 +1,20 @@
 import React, { useState,useContext } from 'react'
-import { StateContext } from '../Contexts'
+import { ThemeContext,StateContext } from '../Contexts'
 import { useResource } from 'react-request-hook'
+import{ Link } from 'react-navi'
+import { Card } from 'react-bootstrap'
 
-export default function ShowPost ({title, content, dateCreated, isComplete, dateCompleted, postId}) {
-
+export default function ShowPost ({title, content, dateCreated, isComplete, dateCompleted, postId,short = false}) {
+  const theme = useContext(ThemeContext)
   const{dispatch} = useContext(StateContext)
+
+  let processedContent = content
+
+  if (short) {
+       if (content.length > 30) {
+            processedContent = content.substring(0, 30) + '...'
+       }
+  }
 
   const [delpost , deletePost ] = useResource((postId) => ({
     url: `/posts/${postId}`,
@@ -32,22 +42,58 @@ const handleComplete = () =>{
     
 }
   return (
-       <div>
-           <br></br>
-        <label>Title:&nbsp;</label><b>{title}</b>
-        <br/>
-        <label>Description:</label><b>{content}</b>
-        <br/>
-        <label>DateCreated:</label><b>{dateCreated}</b>
-        <br/>
-        <label>Is Complete</label>
-        <input type ="checkbox" checked ={isComplete} onChange ={handleComplete}/>
-        <br/>
-        <label>DateCompleted:</label><b>{dateCompleted}</b> 
-        <br></br>
-        <button onClick ={handleDelete}>Delete Todo</button>
-        <br></br> 
-      </div> 
+      //  <div>
+      //      <br></br>
+      //   {/* <h3 style={{ color: theme.primaryColor }}>{title}</h3> */}
+      //   <label>Title:</label><Link style={{ color: theme.secondaryColor }} href={`/post/${postId}`}>{title}</Link>
+      //   <br/>
+      //   <label>Description:</label><b>{processedContent}</b>
+      //   <br/>
+      //   <label>DateCreated:</label><b>{dateCreated}</b>
+      //   <br/>
+      //   <label>Is Complete</label>
+      //   <input type ="checkbox" checked ={isComplete} onChange ={handleComplete}/>
+      //   <br/>
+      //   <label>DateCompleted:</label><b>{dateCompleted}</b> 
+      //   <br></br>
+      //   <button onClick ={handleDelete}>Delete Todo</button>
+      //   <br></br> 
+      //   {short && 
+      //     <div>
+      //       <br/>
+      //       <Link href={`/post/${postId}`}>View full post</Link>
+      //     </div>}
+      //   <hr/>
+      // </div> 
+      <Card>
+        <Card.Body>
+          <Card.Title>
+          <label>Title:</label>
+          <Link style={{ color: theme.secondaryColor }} href={`/post/${postId}`}>{title}</Link>
+          </Card.Title>
+          <Card.Subtitle>
+              <br/>
+            <label>Description:</label><b>{processedContent}</b>
+            <br/>
+            <label>DateCreated:</label><b>{dateCreated}</b>
+            <br/>
+            <label>Is Complete</label>
+            <input type ="checkbox" checked ={isComplete} onChange ={handleComplete}/>
+            <br/>
+            <label>DateCompleted:</label><b>{dateCompleted}</b> 
+            <br></br>
+            <button onClick ={handleDelete}>Delete Todo</button>
+            <br></br>
+            {short && 
+            <div>
+              <br/>
+              <Link href={`/post/${postId}`}>View full post</Link>
+            </div>}
+
+          </Card.Subtitle>
+
+        </Card.Body>
+      </Card>
       
  )
 }

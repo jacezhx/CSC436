@@ -12,6 +12,15 @@ function userReducer (state, action) {
     }
 }
 
+function accountsReducer (state, action) {
+  switch (action.type) {
+      case 'SHOW':
+        return action.accounts
+      default:
+          return state;
+  }
+}
+
 function postsReducer (state, action) {
     var day = new Date();
     var date = day.getFullYear()+'/'+(day.getMonth()+1)+'/'+day.getDate();
@@ -33,7 +42,6 @@ function postsReducer (state, action) {
               return state.filter((p,i) => p.id !== action.postId)
             case 'FETCH_POSTS':
                 return action.posts
-            
           default:
              return state;
       }
@@ -41,6 +49,7 @@ function postsReducer (state, action) {
     export default function appReducer (state, action) {
         return {
             user: userReducer(state.user, action),
-            posts: postsReducer(state.posts, action)
+            posts: postsReducer(state.posts, action),
+            accounts: accountsReducer(state.accounts, action)
         }
     }

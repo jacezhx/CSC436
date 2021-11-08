@@ -1,6 +1,7 @@
 import React ,{useState,useEffect, useContext} from 'react';
 import { StateContext } from '../Contexts';
 import { useResource } from 'react-request-hook';
+import{ useNavigation } from 'react-navi'
 
 
 export default function AddPost () {
@@ -8,20 +9,21 @@ export default function AddPost () {
     const [ content, setContent ] = useState('')
     const {state,dispatch} = useContext(StateContext)
     const {user} = state;
+    const navigation = useNavigation()
 
     const [newpost , createPost ] = useResource(({ title, content,dateCreated,isComplete,dateCompleted}) => ({
         url: '/posts',
         method: 'post',
         data: {title,content,dateCreated,isComplete,dateCompleted }
     }))
-
-    // useEffect(() => {
-    //     if (post && post.data) {
-    //         dispatch({type: 'CREATE_POST', title: post.data.title, content: post.data.content, id: post.data.id, author: user})
-    //         console.log(post.data)
-    //         //navigation.navigate(`/post/${post.data.id}`)
-    //     }
-    // }, [post])
+    
+    useEffect(() => {
+        if (newpost && newpost.data) {
+            dispatch({type: 'CREATE_POST', title: newpost.data.title, content: newpost.data.content, id: newpost.data.id})
+            console.log(newpost.data)
+            navigation.navigate(`/post/${newpost.data.id}`)
+        }
+    }, [newpost])
 
 
 

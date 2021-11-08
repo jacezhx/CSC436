@@ -9,7 +9,7 @@ export default function ToDoList () {
      return (
       <div>
        <h2>My List</h2>
-       {posts.map((p, i) => <ShowPost title={p.title} content={p.content} dateCreated ={p.dateCreated} isComplete ={p.isComplete} dateCompleted = {p.dateCompleted} postId ={p.id} key={'post-' + i} />)}
+       {posts.map((p, i) => <ShowPost title={p.title} short ={true} content={p.content} dateCreated ={p.dateCreated} isComplete ={p.isComplete} dateCompleted = {p.dateCompleted} postId ={p.id} key={'post-' + i} />)}
       </div> 
       )
 }
